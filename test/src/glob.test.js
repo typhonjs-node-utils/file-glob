@@ -37,8 +37,8 @@ describe('Globs:', () =>
       });
    });
 
-   // `esm` used on Node 12.0.0 test doesn't like the minified distribution for `@typhonjs-plugin/manager`.
-   if (process.version !== 'v12.0.0')
+   // `esm` used on Node 12.2.0 test doesn't like the minified distribution for `@typhonjs-plugin/manager`.
+   if (process.version !== 'v12.2.0')
    {
       describe('plugin:', () =>
       {

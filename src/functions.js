@@ -39,12 +39,7 @@ export function hydrateGlob(globs)
       // Convert raw file path to glob as necessary.
       if (!isGlob(entry))
       {
-         // Determine if any included trailing path separator is included.
-         // const results = (/([\\/])$/).exec(entry);
-         // const pathSep = results !== null ? results[0] : path.sep;
-
          // Build all inclusive glob based on bare path and covert it into an array containing it.
-         // entry = entry.endsWith(pathSep) ? `${entry}**${pathSep}*` : `${entry}${pathSep}**${pathSep}*`;
          entry = entry.endsWith('/') ? `${entry}**/*` : `${entry}/**/*`;
       }
 
