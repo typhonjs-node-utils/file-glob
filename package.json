@@ -27,7 +27,7 @@
     "/npm-shrinkwrap.json",
     "/src"
   ],
-  "homepage": "https://github.com/typhonjs-node-utils/file-util",
+  "homepage": "https://github.com/typhonjs-node-utils/file-glob#readme",
   "keywords": [
     "typhonjs",
     "utils",
@@ -35,8 +35,8 @@
     "glob"
   ],
   "license": "MPL-2.0",
-  "bugs": "https://github.com/typhonjs-node-utils/file-util/issues",
-  "repository": "github:typhonjs-node-utils/file-util",
+  "bugs": "https://github.com/typhonjs-node-utils/file-glob/issues",
+  "repository": "github:typhonjs-node-utils/file-glob",
   "scripts": {
     "eslint": "eslint .",
     "posttest": "npm run eslint",
