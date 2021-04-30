@@ -37,32 +37,36 @@ describe('Globs:', () =>
       });
    });
 
-   describe('plugin:', () =>
+   // `esm` used on Node 12.0.0 test doesn't like the minified distribution for `@typhonjs-plugin/manager`.
+   if (process.version !== 'v12.0.0')
    {
-      it('hydrateGlob', async () =>
+      describe('plugin:', () =>
       {
-         const pluginManager = new PluginManager();
-         const eventbus = pluginManager.getEventbus();
+         it('hydrateGlob', async () =>
+         {
+            const pluginManager = new PluginManager();
+            const eventbus = pluginManager.getEventbus();
 
-         await pluginManager.add({ name: '@typhonjs-utils/file-glob', instance: Plugin });
+            await pluginManager.add({ name: '@typhonjs-utils/file-glob', instance: Plugin });
 
-         // Glob upgrade for bare path / all inclusive
-         let { files, globs } = eventbus.triggerSync('typhonjs:utils:file:glob:hydrate', './test/fixture');
+            // Glob upgrade for bare path / all inclusive
+            let { files, globs } = eventbus.triggerSync('typhonjs:utils:file:glob:hydrate', './test/fixture');
 
-         files = files.map((file) => path.parse(file).base);
+            files = files.map((file) => path.parse(file).base);
 
-         assert.strictEqual(JSON.stringify(files), globVerifyFiles);
-         assert.strictEqual(JSON.stringify(globs), globVerifyGlobs);
+            assert.strictEqual(JSON.stringify(files), globVerifyFiles);
+            assert.strictEqual(JSON.stringify(globs), globVerifyGlobs);
 
-         ({ files, globs } = eventbus.triggerSync('typhonjs:utils:file:glob:hydrate',
-          ['./test/fixture/*.gz', './test/fixture/*.js']));
+            ({ files, globs } = eventbus.triggerSync('typhonjs:utils:file:glob:hydrate',
+               ['./test/fixture/*.gz', './test/fixture/*.js']));
 
-         files = files.map((file) => path.parse(file).base);
+            files = files.map((file) => path.parse(file).base);
 
-         assert.strictEqual(JSON.stringify(files), globVerifyFiles);
-         assert.strictEqual(JSON.stringify(globs), globVerifyGlobs2);
+            assert.strictEqual(JSON.stringify(files), globVerifyFiles);
+            assert.strictEqual(JSON.stringify(globs), globVerifyGlobs2);
+         });
       });
-   });
+   }
 });
 
 const globVerifyFiles = '["archive.tar.gz","archive2.tar.gz","test.js","test2.js","test3.js"]';
