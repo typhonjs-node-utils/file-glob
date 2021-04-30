@@ -7,8 +7,6 @@ import Plugin           from '../../src/index.js';
 
 import PluginManager    from '@typhonjs-plugin/manager';
 
-const ps = path.sep;
-
 describe('Globs:', () =>
 {
    describe('function:', () =>
@@ -16,14 +14,14 @@ describe('Globs:', () =>
       it('hydrateGlob', () =>
       {
          // Glob upgrade for bare path / all inclusive
-         let { files, globs } = hydrateGlob(`.${ps}test${ps}fixture${ps}`);
+         let { files, globs } = hydrateGlob('./test/fixture/');
 
          files = files.map((file) => path.parse(file).base);
 
          assert.strictEqual(JSON.stringify(files), globVerifyFiles);
          assert.strictEqual(JSON.stringify(globs), globVerifyGlobs);
 
-         ({ files, globs } = hydrateGlob([`.${ps}test${ps}fixture${ps}*.gz`, `.${ps}test${ps}fixture${ps}*.js`]));
+         ({ files, globs } = hydrateGlob(['./test/fixture/*.gz', './test/fixture/*.js']));
 
          files = files.map((file) => path.parse(file).base);
 
@@ -39,8 +37,8 @@ describe('Globs:', () =>
       });
    });
 
-   // `esm` used on Node 12.2.0 test doesn't like the minified distribution for `@typhonjs-plugin/manager`.
-   if (process.version !== 'v12.2.0')
+   // `esm` used on Node 12.0.0 test doesn't like the minified distribution for `@typhonjs-plugin/manager`.
+   if (process.version !== 'v12.0.0')
    {
       describe('plugin:', () =>
       {
@@ -52,7 +50,7 @@ describe('Globs:', () =>
             await pluginManager.add({ name: '@typhonjs-utils/file-glob', instance: Plugin });
 
             // Glob upgrade for bare path / all inclusive
-            let { files, globs } = eventbus.triggerSync('typhonjs:utils:file:glob:hydrate', `.${ps}test${ps}fixture`);
+            let { files, globs } = eventbus.triggerSync('typhonjs:utils:file:glob:hydrate', './test/fixture');
 
             files = files.map((file) => path.parse(file).base);
 
@@ -60,7 +58,7 @@ describe('Globs:', () =>
             assert.strictEqual(JSON.stringify(globs), globVerifyGlobs);
 
             ({ files, globs } = eventbus.triggerSync('typhonjs:utils:file:glob:hydrate',
-               [`.${ps}test${ps}fixture${ps}*.gz`, `.${ps}test${ps}fixture${ps}*.js`]));
+               ['./test/fixture/*.gz', './test/fixture/*.js']));
 
             files = files.map((file) => path.parse(file).base);
 
@@ -72,6 +70,6 @@ describe('Globs:', () =>
 });
 
 const globVerifyFiles = '["archive.tar.gz","archive2.tar.gz","test.js","test2.js","test3.js"]';
-const globVerifyGlobs = `[".${ps}test${ps}fixture${ps}**${ps}*"]`;
+const globVerifyGlobs = '["./test/fixture/**/*"]';
 
-const globVerifyGlobs2 = `[".${ps}test${ps}fixture${ps}*.gz",".${ps}test${ps}fixture${ps}*.js"]`;
+const globVerifyGlobs2 = '["./test/fixture/*.gz","./test/fixture/*.js"]';
