@@ -2,8 +2,8 @@ import path             from 'path';
 
 import { assert }       from 'chai';
 
-import { hydrateGlob }  from '../../src/index.js';
-import Plugin           from '../../src/index.js';
+import { hydrateGlob }  from '../../src/functions.js';
+import * as Plugin      from '../../src/plugin.js';
 
 import PluginManager    from '@typhonjs-plugin/manager';
 
